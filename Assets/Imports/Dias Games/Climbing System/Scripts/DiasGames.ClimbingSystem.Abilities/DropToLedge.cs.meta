@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1a17b5cc0d10c1448a1d1af8e596fd90
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Abilities/DropToLedge.cs
+  uploadId: 748778

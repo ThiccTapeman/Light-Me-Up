@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 02a710444ca063b43a11551bb094b331
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Abilities/CrouchAbility.asset
+  uploadId: 748778

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639f6ee865a4ae54680ecbee8c785d7c, type: 3}
+  m_Name: RollAbility
+  m_EditorClassIdentifier: 
+  _abilityName: Roll
+  _autoStart: 0
+  _activationTags:
+    _tags:
+    - _name: Grounded.Rolling
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Air
+    - _name: Death
+    - _name: Grounded.Crawling
+    - _name: Interacting
+    - _name: NoGravity
+  _cancelWithTags:
+    _tags:
+    - _name: Grounded
+  _animRollState: Roll
+  _rollSpeed: 7
+  _rollDuration: 0.85
+  _capsuleHeightOnRoll: 1
+  _rollClips: {fileID: 11400000, guid: 4a92b4f3df7e40845af5828cd37d36b3, type: 2}

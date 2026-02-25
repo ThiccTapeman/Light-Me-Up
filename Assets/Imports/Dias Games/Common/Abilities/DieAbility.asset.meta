@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7c1c987ed7b98a747aa41f75b7adf7d6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Abilities/DieAbility.asset
+  uploadId: 748778

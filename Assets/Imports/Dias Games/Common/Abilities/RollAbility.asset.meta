@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27d30aaa9f5375043874ea0c1482d9e2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Abilities/RollAbility.asset
+  uploadId: 748778

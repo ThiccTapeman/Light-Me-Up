@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 887c1d6b8c1a4d86bf920e929f7e3e53
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 3
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.Controller/PlayerController.cs
+  uploadId: 748778

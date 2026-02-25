@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dba191fcb9a73f343917d2432d06f424
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Prefabs/UI/HealthBar.prefab
+  uploadId: 748778

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 71e3fdb51ddc0044e9d08e8d41a131e7
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.Trigger/DiasGames.Trigger.asmdef
+  uploadId: 748778

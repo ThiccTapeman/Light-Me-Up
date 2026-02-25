@@ -1,0 +1,17 @@
+{
+    "name": "DiasGames.Puzzle",
+    "rootNamespace": "",
+    "references": [
+        "GUID:689088c671fd8d548a93f07c34a667b7",
+        "GUID:609c2aa4da2f9a54089a3c17420c962f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

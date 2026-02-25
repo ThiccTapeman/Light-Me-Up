@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: c67606c066284a85be9069508d530210
+timeCreated: 1735225585
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Core/IAbilitySystem.cs
+  uploadId: 748778

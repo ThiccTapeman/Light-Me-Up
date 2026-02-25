@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 1c9c42406992473e837782e4c1430682
+timeCreated: 1735666654
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Command/DropLedgeCommand.cs
+  uploadId: 748778

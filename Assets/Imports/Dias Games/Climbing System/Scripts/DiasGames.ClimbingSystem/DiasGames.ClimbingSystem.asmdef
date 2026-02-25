@@ -1,0 +1,18 @@
+{
+    "name": "DiasGames.ClimbingSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:f981828389dcce54e91747c16d0ba11c",
+        "GUID:aa694dd7645de98419b24a2cceb70905"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

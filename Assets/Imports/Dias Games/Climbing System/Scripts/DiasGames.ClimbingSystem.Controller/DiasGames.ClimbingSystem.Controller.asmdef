@@ -1,0 +1,23 @@
+{
+    "name": "DiasGames.ClimbingSystem.Controller",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e4c1e6ed20297ff41bb0192c0dcc41ff",
+        "GUID:609c2aa4da2f9a54089a3c17420c962f",
+        "GUID:689088c671fd8d548a93f07c34a667b7",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:c7216ebc8e944344f8b4f80af7c40dc3",
+        "GUID:1ab40499cdb49f54cbdffbfa2b3adbae",
+        "GUID:f981828389dcce54e91747c16d0ba11c",
+        "GUID:1bde9c23dcb1fa145b53e95ba6408623"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

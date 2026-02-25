@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 98e62621a8d5dfb459ae51aa1def37dd
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Audio/Jump_Clips.asset
+  uploadId: 748778

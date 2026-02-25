@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: c402b025e2004cd48ed5a591a319f67d
+timeCreated: 1735842063
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Abilities/HardLandAbility.cs
+  uploadId: 748778

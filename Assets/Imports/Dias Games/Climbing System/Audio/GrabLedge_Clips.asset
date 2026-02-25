@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3315882265e7643b49927381240e93, type: 3}
+  m_Name: GrabLedge_Clips
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: 52181f4cabe10684cb695eff898678cc, type: 3}
+  - {fileID: 8300000, guid: e10ff28617551e540b7343a29607b92e, type: 3}
+  - {fileID: 8300000, guid: eb6410986d43b7943a1550d59c2c5a2c, type: 3}
+  _minVolume: 0.3
+  _maxVolume: 0.6
+  _minPitch: 0.85
+  _maxPitch: 1.05

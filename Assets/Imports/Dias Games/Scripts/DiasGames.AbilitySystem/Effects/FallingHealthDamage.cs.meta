@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 2d4d80fcdf624a739cc8a32f42ee1dc1
+timeCreated: 1735842533
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Effects/FallingHealthDamage.cs
+  uploadId: 748778

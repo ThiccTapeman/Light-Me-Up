@@ -1,0 +1,21 @@
+using UnityEngine;
+using DiasGames.AbilitySystem.Core;
+
+namespace DiasGames.AbilitySystem.Abilities
+{
+    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Dias Games/Abilities/#SCRIPTNAME#", order = 0)]
+    public class #SCRIPTNAME# : Ability
+    {
+        protected override void OnStartAbility(GameObject instigator)
+        {
+        }
+
+        public override void UpdateAbility(float deltaTime)
+        {
+        }
+
+        protected override void OnStopAbility(GameObject instigator)
+        {
+        }
+    }
+}

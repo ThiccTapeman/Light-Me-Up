@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3d500c32b7741aa43b15ee7f280f4dd9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.Editor/SetupProjectSettings.cs
+  uploadId: 748778

@@ -1,0 +1,18 @@
+{
+    "name": "DiasGames.ClimbingSystem.Editors",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1ab40499cdb49f54cbdffbfa2b3adbae"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4555116aaffb6ef4bbbbc44b7313f381
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Controller/DiasGames.ClimbingSystem.Controller.asmdef
+  uploadId: 748778

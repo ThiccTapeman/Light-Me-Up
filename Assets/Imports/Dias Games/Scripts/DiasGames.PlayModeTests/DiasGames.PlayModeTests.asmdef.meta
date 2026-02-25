@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 303b5cfd1a6f57e4ea05ce26b76943fb
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.PlayModeTests/DiasGames.PlayModeTests.asmdef
+  uploadId: 748778

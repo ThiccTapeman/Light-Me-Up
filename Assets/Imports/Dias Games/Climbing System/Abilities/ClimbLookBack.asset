@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78ead7a4a6639784386a2ffb10a68023, type: 3}
+  m_Name: ClimbLookBack
+  m_EditorClassIdentifier: 
+  _abilityName: Climb Look Back
+  _autoStart: 0
+  _activationTags:
+    _tags:
+    - _name: Climbing.IK
+      _uniqueID: b0a98e45-7ed2-4156-a51e-fa7c682e742e
+    - _name: Climbing.LookingBack
+      _uniqueID: 8dcacde9-f573-4bb8-881b-c52a52f46c3b
+    - _name: NoGravity
+      _uniqueID: 69dffb70-7e62-4882-8b37-02d347ede791
+  _requiredTags:
+    _tags:
+    - _name: Climbing.Idle
+      _uniqueID: 95c92feb-a95f-4506-9881-4fd90348f08b
+  _blockingTags:
+    _tags:
+    - _name: Climbing.Interpolation
+      _uniqueID: 7674f50a-e699-4e94-ba27-253c7ae98f4b
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+  _cancelWithTags:
+    _tags:
+    - _name: Climbing.Idle
+      _uniqueID: 95c92feb-a95f-4506-9881-4fd90348f08b
+  _lookBackAnimState: Climb.Looking back

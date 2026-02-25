@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 70b74b2c74819354d8179dbaf0940ad6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Prefabs/Dynamic Climbables/Turnable
+    Disk.prefab
+  uploadId: 748778

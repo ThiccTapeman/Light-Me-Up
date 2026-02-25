@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8383e6b3d6308be4c84a60314a824529
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Abilities/WallRunAbility.asset
+  uploadId: 748778

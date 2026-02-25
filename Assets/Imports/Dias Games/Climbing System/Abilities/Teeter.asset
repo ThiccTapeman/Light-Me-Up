@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726f7b8bd833457ba22a53e46ceccddb, type: 3}
+  m_Name: Teeter
+  m_EditorClassIdentifier: 
+  _abilityName: Teeter
+  _autoStart: 1
+  _activationTags:
+    _tags:
+    - _name: Teeter
+      _uniqueID: f7f9b0bf-9292-4291-9107-07acad87a5f3
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+  _cancelWithTags:
+    _tags:
+    - _name: Air
+      _uniqueID: c41f9222-c0df-4553-af35-7a87b34a054e
+    - _name: Grounded
+      _uniqueID: c14acb84-3fc8-48d4-8864-179ac9b25f4c
+  _teeterAnimState: Teeter
+  _teeterTag: Teeter

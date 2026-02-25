@@ -1,0 +1,17 @@
+{
+    "name": "DiasGames.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1a1beb87ce93166439371c7f7f22c5f1",
+        "GUID:689088c671fd8d548a93f07c34a667b7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

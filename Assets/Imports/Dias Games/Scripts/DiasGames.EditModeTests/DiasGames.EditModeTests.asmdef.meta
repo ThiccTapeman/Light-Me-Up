@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9aa4080bc72bdc346a78e348576c7b4a
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.EditModeTests/DiasGames.EditModeTests.asmdef
+  uploadId: 748778

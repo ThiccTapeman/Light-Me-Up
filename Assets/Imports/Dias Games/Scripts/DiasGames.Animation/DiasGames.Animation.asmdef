@@ -1,0 +1,16 @@
+{
+    "name": "DiasGames.Animation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:689088c671fd8d548a93f07c34a667b7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
