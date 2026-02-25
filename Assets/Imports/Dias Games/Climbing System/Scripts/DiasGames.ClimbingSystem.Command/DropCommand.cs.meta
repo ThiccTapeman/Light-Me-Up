@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 57f8bdadb3b14650a9b4827f5f8c3c09
+timeCreated: 1698941235
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Command/DropCommand.cs
+  uploadId: 748778

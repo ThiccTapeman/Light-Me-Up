@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 9d0ec3627e6949cd9d83c67dc5724818
+timeCreated: 1697403940
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/ScriptTemplates/01-C# Ability Script-NewAbility.cs.txt
+  uploadId: 748778

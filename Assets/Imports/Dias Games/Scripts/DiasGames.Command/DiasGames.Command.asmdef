@@ -1,0 +1,18 @@
+{
+    "name": "DiasGames.Command",
+    "rootNamespace": "",
+    "references": [
+        "GUID:609c2aa4da2f9a54089a3c17420c962f",
+        "GUID:c5728f57b9f4d1d4abe3a6868a72e933",
+        "GUID:689088c671fd8d548a93f07c34a667b7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

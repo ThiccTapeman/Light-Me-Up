@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a5195060be0b04788e303695eb9a9d, type: 3}
+  m_Name: ClimbJumpBack
+  m_EditorClassIdentifier: 
+  _abilityName: Climb Jump Back
+  _autoStart: 0
+  _activationTags:
+    _tags:
+    - _name: Air
+    - _name: Climbing.Interpolation
+    - _name: NoGravity
+  _requiredTags:
+    _tags:
+    - _name: Climbing.LookingBack
+  _blockingTags:
+    _tags:
+    - _name: Climbing.Interpolation
+    - _name: Death
+  _cancelWithTags:
+    _tags:
+    - _name: Climbing
+  _jumpBackAnimation: Climb.Jump From Wall
+  _jumpParameters:
+    minJumpHeight: 0.5
+    maxJumpHeight: 1
+    horizontalSpeed: 8
+  _maxHeight: 2
+  _maxDistance: 8
+  _delayToPerformJump: 0.5
+  _acceptableAngle: 45
+  _jumpVocalClips: {fileID: 11400000, guid: fadfae990443bf640b72a8d0b4a7a0bd, type: 2}

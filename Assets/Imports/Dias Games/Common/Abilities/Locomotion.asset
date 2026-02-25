@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12da0fdf01e4ad5951e6b0c88950b79, type: 3}
+  m_Name: Locomotion
+  m_EditorClassIdentifier: 
+  _abilityName: Locomotion
+  _autoStart: 1
+  _activationTags:
+    _tags:
+    - _name: Grounded.Walking
+      _uniqueID: 6275e1fb-521d-4fd9-a9bd-c37c0f263511
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+    - _name: Grounded
+      _uniqueID: c14acb84-3fc8-48d4-8864-179ac9b25f4c
+    - _name: Grounded.HardLanding
+      _uniqueID: 958d34f4-79fb-45d1-a8e8-bc388ee97c31
+    - _name: NoGravity
+      _uniqueID: 69dffb70-7e62-4882-8b37-02d347ede791
+    - _name: Teeter
+      _uniqueID: f7f9b0bf-9292-4291-9107-07acad87a5f3
+  _cancelWithTags:
+    _tags: []
+  walkSpeed: 2
+  sprintSpeed: 5.3
+  movementByKey: 0
+  groundedAnimBlendState: Grounded

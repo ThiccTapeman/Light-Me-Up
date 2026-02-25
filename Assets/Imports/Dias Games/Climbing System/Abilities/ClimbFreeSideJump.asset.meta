@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3d44ddc3616c3e747a243e11d77bcf93
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Abilities/ClimbFreeSideJump.asset
+  uploadId: 748778

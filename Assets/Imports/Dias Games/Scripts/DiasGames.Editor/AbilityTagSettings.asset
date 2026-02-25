@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9942fe772c74e9e860fa173e6fd72e9, type: 3}
+  m_Name: AbilityTagSettings
+  m_EditorClassIdentifier: 
+  _tags:
+  - _name: Air
+  - _name: Air.Falling
+  - _name: Air.Jumping
+  - _name: CheckLedges
+  - _name: Climbing
+  - _name: Climbing.Dropping
+  - _name: Climbing.Idle
+  - _name: Climbing.IK
+  - _name: Climbing.Interpolation
+  - _name: Climbing.LookingBack
+  - _name: Death
+  - _name: Grounded
+  - _name: Grounded.Crawling
+  - _name: Grounded.Crouching
+  - _name: Grounded.HardLanding
+  - _name: Grounded.Rolling
+  - _name: Grounded.Strafing
+  - _name: Grounded.Walking
+  - _name: Interacting
+  - _name: NoGravity
+  - _name: NoGravity.Ladder
+  - _name: NoGravity.WallRun
+  - _name: Teeter

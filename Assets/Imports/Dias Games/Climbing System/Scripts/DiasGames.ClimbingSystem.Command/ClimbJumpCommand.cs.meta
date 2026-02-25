@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 834eb782b23c4842a0646be900cfc1d3
+timeCreated: 1698941327
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Command/ClimbJumpCommand.cs
+  uploadId: 748778

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1c9d2133dfa30234e8e5d1ecc0e34876
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Prefabs/Character/Climbing Character
+    - Rigidbody Variant.prefab
+  uploadId: 748778

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f172e47d838b16343a1add4689cba58a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Abilities/ClimbJump.asset
+  uploadId: 748778

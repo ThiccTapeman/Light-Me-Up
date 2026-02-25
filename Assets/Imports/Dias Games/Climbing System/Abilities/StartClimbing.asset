@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f54784864b19340a2b25abdde2401f, type: 3}
+  m_Name: StartClimbing
+  m_EditorClassIdentifier: 
+  _abilityName: StartClimb
+  _autoStart: 1
+  _activationTags:
+    _tags:
+    - _name: Air
+    - _name: Climbing.IK
+    - _name: Climbing.Interpolation
+    - _name: NoGravity
+  _requiredTags:
+    _tags:
+    - _name: Air
+  _blockingTags:
+    _tags:
+    - _name: Climbing
+    - _name: Climbing.Dropping
+    - _name: Death
+    - _name: Grounded
+    - _name: NoGravity
+  _cancelWithTags:
+    _tags:
+    - _name: Air
+    - _name: CheckLedges
+  _animState: Climb.Start Climb
+  _lerpDuration: 0.15
+  _abilityDuration: 0.5
+  _grabAudioClips: {fileID: 11400000, guid: 27164ccabc8a7be4ebf8e468ee7ddc18, type: 2}

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: d0419507ec084479ab5c3ffec5fffebb
+timeCreated: 1697404091
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Abilities/JumpAbility.cs
+  uploadId: 748778

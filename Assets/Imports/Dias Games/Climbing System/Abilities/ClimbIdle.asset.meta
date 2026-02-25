@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6db7dae86c7564a489da85cd79a94d5f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Abilities/ClimbIdle.asset
+  uploadId: 748778

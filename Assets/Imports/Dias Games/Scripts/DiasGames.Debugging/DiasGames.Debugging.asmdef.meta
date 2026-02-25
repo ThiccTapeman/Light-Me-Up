@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: aa694dd7645de98419b24a2cceb70905
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.Debugging/DiasGames.Debugging.asmdef
+  uploadId: 748778

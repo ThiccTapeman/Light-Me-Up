@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1a164644c72cd454d8e6cdb587635f6c
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Effects/DiasGames.AbilitySystem.Effects.asmdef
+  uploadId: 748778

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cc36e54127a0b7142bc8f2acc2ceeb0c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Animations/Crawl To Stand.anim
+  uploadId: 748778

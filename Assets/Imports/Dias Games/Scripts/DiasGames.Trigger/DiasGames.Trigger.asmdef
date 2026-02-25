@@ -1,0 +1,16 @@
+{
+    "name": "DiasGames.Trigger",
+    "rootNamespace": "",
+    "references": [
+        "GUID:609c2aa4da2f9a54089a3c17420c962f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

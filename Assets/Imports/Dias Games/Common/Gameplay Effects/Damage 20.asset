@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0028ce266ef04ef3aafa0450a8744f64, type: 3}
+  m_Name: Damage 20
+  m_EditorClassIdentifier: 
+  _abilityName: Damage 20
+  _autoStart: 0
+  _activationTags:
+    _tags: []
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+  _cancelWithTags:
+    _tags: []
+  _useDeltaTime: 0
+  _duration: 0
+  _attributeType: 0
+  _absoluteValue: -20

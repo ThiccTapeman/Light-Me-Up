@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 71c781a68693440d9d2be37706c7e359
+timeCreated: 1735405555
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.AbilitySystem/Editor/AbilityTagDrawer.cs
+  uploadId: 748778

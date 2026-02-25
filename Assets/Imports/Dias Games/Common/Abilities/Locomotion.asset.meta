@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6dca8486ce224e44da1b5f54c180c2ee
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Common/Abilities/Locomotion.asset
+  uploadId: 748778

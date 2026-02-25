@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a6ecbd507551824f9c7add52c1f2de1, type: 3}
+  m_Name: ClimbUp
+  m_EditorClassIdentifier: 
+  _abilityName: Climb Up
+  _autoStart: 0
+  _activationTags:
+    _tags:
+    - _name: Climbing.IK
+    - _name: Climbing.Interpolation
+    - _name: NoGravity
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Climbing.Interpolation
+    - _name: Death
+    - _name: NoGravity.Ladder
+  _cancelWithTags:
+    _tags:
+    - _name: Climbing
+  _climbUpState:
+    _animationStateName: Climb.Climb Up
+    _climbUpDuration: 0.9
+    _targetOffset: {x: 0, y: 1.4, z: 0.75}
+    _matchStartNormalizedTime: 0.5
+    _matchEndNormalizedTime: 0.9
+    _climbUpVocalClips: {fileID: 11400000, guid: cb06378ea7989b04c9a2ed82d9d723b9, type: 2}
+  _hangClimbUpState:
+    _animationStateName: Climb.Hang Climb Up
+    _climbUpDuration: 3.2
+    _targetOffset: {x: 0, y: 1.3, z: 0.1}
+    _matchStartNormalizedTime: 0.7
+    _matchEndNormalizedTime: 0.95
+    _climbUpVocalClips: {fileID: 11400000, guid: eac71eb9261ab964b8cd33e41abc40c1, type: 2}

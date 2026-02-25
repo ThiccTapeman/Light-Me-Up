@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 33d33f14c8e9442db3648fa8f8d6e73e
+timeCreated: 1735742097
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Abilities/ClimbFreeSidePredictedJump.cs
+  uploadId: 748778

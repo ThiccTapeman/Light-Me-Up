@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c12066a2ad219d47aaf917042e73b7e, type: 3}
+  m_Name: CheckLedges
+  m_EditorClassIdentifier: 
+  _abilityName: Check Ledge
+  _autoStart: 1
+  _activationTags:
+    _tags:
+    - _name: Air
+      _uniqueID: c41f9222-c0df-4553-af35-7a87b34a054e
+    - _name: CheckLedges
+      _uniqueID: 5719e664-24bd-4454-91c2-724b23c6da5a
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Climbing
+      _uniqueID: b456861b-8e44-4b01-b813-acb56959a9c3
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+    - _name: Grounded
+      _uniqueID: c14acb84-3fc8-48d4-8864-179ac9b25f4c
+  _cancelWithTags:
+    _tags: []

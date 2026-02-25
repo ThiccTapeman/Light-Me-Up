@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cdf9f6902cbbbed4c8dc03dda37a551a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Prefabs/Dynamic Climbables/Climbable
+    Cylinder.prefab
+  uploadId: 748778

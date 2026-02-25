@@ -1,0 +1,19 @@
+{
+    "name": "DiasGames.AbilitySystem.Abilities",
+    "rootNamespace": "",
+    "references": [
+        "GUID:609c2aa4da2f9a54089a3c17420c962f",
+        "GUID:689088c671fd8d548a93f07c34a667b7",
+        "GUID:1a1beb87ce93166439371c7f7f22c5f1",
+        "GUID:1a164644c72cd454d8e6cdb587635f6c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d4a30b5c8ae19c742a15b6dadba272d8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Animations/Animator/CS Animator.controller
+  uploadId: 748778

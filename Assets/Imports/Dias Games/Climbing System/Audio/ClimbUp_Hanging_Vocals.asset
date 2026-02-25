@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3315882265e7643b49927381240e93, type: 3}
+  m_Name: ClimbUp_Hanging_Vocals
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: 8d0ce4b081b46fa42afd73c2ebfa7ea1, type: 3}
+  _minVolume: 1
+  _maxVolume: 1
+  _minPitch: 0.85
+  _maxPitch: 1

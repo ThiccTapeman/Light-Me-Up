@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c49d904a72d9744b7c76d6fe396b46, type: 3}
+  m_Name: CrawlAbility
+  m_EditorClassIdentifier: 
+  _abilityName: Crawl
+  _autoStart: 0
+  _activationTags:
+    _tags:
+    - _name: Grounded.Crawling
+      _uniqueID: 126a3fe8-bcbd-408d-bf4f-de22ec716db3
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Air
+      _uniqueID: c41f9222-c0df-4553-af35-7a87b34a054e
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+    - _name: Grounded.Rolling
+      _uniqueID: 240cf918-9b0e-4b4e-96a7-2d5b246b721b
+    - _name: Interacting
+      _uniqueID: c6afe8b2-9acd-4cf3-9d38-ad167a84310e
+    - _name: NoGravity
+      _uniqueID: 69dffb70-7e62-4882-8b37-02d347ede791
+  _cancelWithTags:
+    _tags:
+    - _name: Grounded
+      _uniqueID: c14acb84-3fc8-48d4-8864-179ac9b25f4c
+  _crawlSpeed: 1
+  _capsuleHeightOnCrawl: 0.5
+  _startCrawlAnimationState: Stand to Crawl
+  _stopCrawlAnimationState: Crawl to Stand
+  _obstaclesMask:
+    serializedVersion: 2
+    m_Bits: 1
+  _maxHeightToStartCrawl: 0.75

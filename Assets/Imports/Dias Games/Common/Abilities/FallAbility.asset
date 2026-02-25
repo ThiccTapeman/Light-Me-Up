@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7120e485c883a014592302fb92977ca1, type: 3}
+  m_Name: FallAbility
+  m_EditorClassIdentifier: 
+  _abilityName: Fall
+  _autoStart: 1
+  _activationTags:
+    _tags:
+    - _name: Air.Falling
+      _uniqueID: 139b36a0-0210-4b13-bd1d-c4f1a5ca679a
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags:
+    - _name: Air.Jumping
+      _uniqueID: 18555720-dde4-4c91-b9af-43eb2388be66
+    - _name: Climbing
+      _uniqueID: b456861b-8e44-4b01-b813-acb56959a9c3
+    - _name: Death
+      _uniqueID: 5f56918b-982c-434d-bbe6-2f3284b52ee5
+    - _name: NoGravity
+      _uniqueID: 69dffb70-7e62-4882-8b37-02d347ede791
+  _cancelWithTags:
+    _tags:
+    - _name: Grounded
+      _uniqueID: c14acb84-3fc8-48d4-8864-179ac9b25f4c
+  animFallState: Air.Falling
+  _airControl: 0.1
+  heightForHardLand: 5
+  _damageEffect: {fileID: 11400000, guid: e03a0741875e0604fb005aa7a7649c50, type: 2}

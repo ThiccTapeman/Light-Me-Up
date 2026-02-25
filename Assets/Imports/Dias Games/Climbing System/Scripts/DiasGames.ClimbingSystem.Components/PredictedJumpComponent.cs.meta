@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 026b6e41d7bf46f3803c5d7eccc51b61
+timeCreated: 1735598143
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Climbing System/Scripts/DiasGames.ClimbingSystem.Components/PredictedJumpComponent.cs
+  uploadId: 748778

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 29af8de5ac67bd94ba7b5fd18cd8dde8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 151612
+  packageName: Climbing System
+  packageVersion: 5.1
+  assetPath: Assets/Dias Games/Scripts/DiasGames.Editor/AbilityTagSettings.asset
+  uploadId: 748778
