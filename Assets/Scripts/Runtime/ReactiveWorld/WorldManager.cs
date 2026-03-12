@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Runtime.ReactiveWorld.Reactor;
 using Runtime.ReactiveWorld.Events;
 using UnityEngine;
+using Runtime.ReactiveWorld.Partitions;
 
 namespace Runtime.ReactiveWorld
 {
@@ -16,8 +17,16 @@ namespace Runtime.ReactiveWorld
     /// events via <see cref="Raise{TEvent}"/> without knowing who is listening.
     /// </para>
     /// </summary>
-    public class WorldManager
+    public class WorldManager : MonoBehaviour
     {
+        private static WorldManager instance;
+
+        /// <summary>
+        /// Spatial partitioning system. Exposes area queries (position lookup, reactor listing)
+        /// and is populated automatically during <c>Awake</c> from scene <see cref="AreaVolume"/> components.
+        /// </summary>
+        public PartitionManager Partitions { get; private set; }
+
         /// <summary>All reactors currently registered in the world.</summary>
         private List<IReactor> _reactors  = new();
 
@@ -28,6 +37,40 @@ namespace Runtime.ReactiveWorld
         private Dictionary<Type, List<Delegate>> _subscribers = new();
 
         /// <summary>
+        /// Gets or creates new instance for WorldManager
+        /// </summary>
+        /// <returns>The instance for WorldManager</returns>
+        public static WorldManager GetInstance()
+        {
+            if (instance != null) return instance;
+
+            instance = FindFirstObjectByType<WorldManager>();
+
+            if (instance != null) return instance;
+
+            GameObject gameObject = new("WorldManager");
+            instance = gameObject.AddComponent<WorldManager>();
+
+            return instance;
+        }
+
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
+
+            Partitions = new PartitionManager();
+
+            foreach(var area in FindObjectsByType<AreaVolume>(FindObjectsSortMode.None))
+                Partitions.RegisterArea(area);
+        }
+
+        /// <summary>
         /// Registers a reactor in the world. Has no effect if already registered.
         /// Called automatically by <see cref="BaseReactor.Initialize"/>.
         /// </summary>
@@ -36,6 +79,11 @@ namespace Runtime.ReactiveWorld
         {
             if (!_reactors.Contains(reactor))
             {
+                if (reactor is IAreaReactor areaReactor)
+                {
+                    Partitions.Register(areaReactor.AreaId, reactor);
+                }
+
                 _reactors.Add(reactor);
                 Debug.Log($"[WorldManager] Reactor '{reactor.Name}' registered.");
             }
@@ -54,6 +102,11 @@ namespace Runtime.ReactiveWorld
         {
             if (_reactors.Contains(reactor))
             {
+                if (reactor is IAreaReactor areaReactor)
+                {
+                    Partitions.Unregister(areaReactor.AreaId, reactor);
+                }
+
                 _reactors.Remove(reactor);
                 Debug.Log($"[WorldManager] Reactor '{reactor.Name}' unregistered.");
             }
