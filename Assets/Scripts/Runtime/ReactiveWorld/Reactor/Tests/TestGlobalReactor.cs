@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class TestGlobalReactor : MonoBehaviour, IReactor
 {
-    [SerializeField] private string areaName;
-    [SerializeField] private WorldManager _worldManager;
+    [SerializeField] private string _reactorName;
+    private WorldManager _worldManager;
 
-    public string Name => areaName;
+    public string Name => _reactorName;
 
     public bool IsEnabled { get; set; } = true;
 
-    public void Initialize(WorldManager worldManager)
+    private void Awake()
     {
-        worldManager.Register(this);
+        _worldManager = WorldManager.GetInstance();
+    }
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        _worldManager.Register(this);
     }
 
     public void Shutdown()
     {
         _worldManager.Unregister(this);
-    }
-
-    private void Start()
-    {
-        Initialize(_worldManager);
     }
 }
