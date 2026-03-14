@@ -22,8 +22,7 @@ namespace Runtime.ReactiveWorld.Reactor
         /// Initializes the reactor and registers it with the <see cref="WorldManager"/>.
         /// Event subscriptions should be set up here.
         /// </summary>
-        /// <param name="worldManager">The central manager of the reactive world.</param>
-        void Initialize(WorldManager worldManager);
+        void Initialize();
 
         /// <summary>
         /// Shuts down the reactor and unregisters it from the <see cref="WorldManager"/>.

@@ -4,28 +4,34 @@ using UnityEngine;
 
 public class TestAreaReactor : MonoBehaviour, IAreaReactor
 {
-    [SerializeField] private string areaId;
-    [SerializeField] private string areaName;
-    [SerializeField] private WorldManager _worldManager;
+    [SerializeField] private string _areaId;
+    [SerializeField] private string _reactorName;
 
-    public string AreaId => areaId;
+    private WorldManager _worldManager;
 
-    public string Name => areaName;
+    public string AreaId => _areaId;
+
+    public string Name => _reactorName;
 
     public bool IsEnabled { get; set; } = true;
 
-    public void Initialize(WorldManager worldManager)
+    private void Awake()
     {
-        worldManager.Register(this);
+        _worldManager = WorldManager.GetInstance();
+    }
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        _worldManager.Register(this);
     }
 
     public void Shutdown()
     {
         _worldManager.Unregister(this);
-    }
-
-    private void Start()
-    {
-        Initialize(_worldManager);
     }
 }
