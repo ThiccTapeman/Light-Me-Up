@@ -4,9 +4,11 @@ namespace Runtime.ReactiveWorld.Reactor
 {
     public abstract class BaseReactor : MonoBehaviour, IReactor
     {
+        [SerializeField] private string ReactorName;
+
         protected WorldManager WorldManager { get; private set; }
 
-        public abstract string Name { get; }
+        public string Name => ReactorName;
         public bool IsEnabled { get; set; } = true;
 
         private void Awake()

@@ -669,8 +669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34719675f2277374ba2292c9433ebc2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestAreaReactor
+  ReactorName: areaAreactor2
   _areaId: areaA
-  _reactorName: areaReactor2
 --- !u!1 &631710560
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2787f11cb83fd084481aacc147d3aa98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestGlobalReactor
-  _reactorName: global1
+  ReactorName: global1
 --- !u!4 &631710562
 Transform:
   m_ObjectHideFlags: 0
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2787f11cb83fd084481aacc147d3aa98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestGlobalReactor
-  _reactorName: global2
+  ReactorName: global2
 --- !u!4 &1283671936
 Transform:
   m_ObjectHideFlags: 0
@@ -854,8 +854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34719675f2277374ba2292c9433ebc2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestAreaReactor
+  ReactorName: areaAreactor1
   _areaId: areaA
-  _reactorName: areaAReactor1
 --- !u!1 &2126757046
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,8 +900,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34719675f2277374ba2292c9433ebc2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestAreaReactor
+  ReactorName: areaBreactor1
   _areaId: areaB
-  _reactorName: areaBReactor1
 --- !u!1001 &6806716876111125066
 PrefabInstance:
   m_ObjectHideFlags: 0
