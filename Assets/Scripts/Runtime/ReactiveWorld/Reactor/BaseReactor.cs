@@ -33,7 +33,13 @@ namespace Runtime.ReactiveWorld.Reactor
             WorldManager.Unregister(this);
         }
 
-        protected virtual void OnInitialize() {}
-        protected virtual void OnShutdown() {}
+        protected virtual void OnInitialize() { }
+        protected virtual void OnShutdown() { }
+
+        /// <summary>
+        /// Draws reactor-specific debug controls inside the ReactiveWorld editor overlay.
+        /// Override this in derived reactors to expose custom runtime debug UI.
+        /// </summary>
+        public virtual void DrawDebugGUI() { }
     }
 }
