@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 00000000000000000000000000000000
+  productGUID: c2790c74e255ddc42bde65d1fb4218f6
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -868,7 +868,7 @@ PlayerSettings:
   cloudProjectId: 63968709-45e5-4200-bf00-b42cec450633
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
+  projectName: Light Me Up 2026-02-06_02-28-40
   organizationId: firemaster5431
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

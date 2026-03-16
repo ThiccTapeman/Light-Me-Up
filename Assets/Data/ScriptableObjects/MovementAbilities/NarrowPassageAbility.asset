@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d5cf7d89436d584fa64cd794a9aa5e2, type: 3}
+  m_Name: NarrowPassageAbility
+  m_EditorClassIdentifier: Assembly-CSharp::DiasGames.AbilitySystem.Abilities.NarrowPassageAbility
+  _abilityName: NarrowPassage
+  _autoStart: 1
+  _activationTags:
+    _tags: []
+  _requiredTags:
+    _tags: []
+  _blockingTags:
+    _tags: []
+  _cancelWithTags:
+    _tags: []
+  _animationState: Narrow Passage
+  _speedParam: Speed
+  _enterSnapSpeed: 10
+  _facingYawOffset: -90
+  _exitOffset: 0.1
+  _reverseInputThreshold: 0.25
+  _reenterCooldown: 1
