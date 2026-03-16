@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 using Runtime.ReactiveWorld.Reactor;
 using Runtime.ReactiveWorld.Events;
 using UnityEngine;
@@ -17,9 +19,10 @@ namespace Runtime.ReactiveWorld
     /// events via <see cref="Raise{TEvent}"/> without knowing who is listening.
     /// </para>
     /// </summary>
-    public class WorldManager : MonoBehaviour
+    public partial class WorldManager : MonoBehaviour
     {
         private static WorldManager instance;
+        private static readonly IReadOnlyList<IReactor> EmptyReactors = Array.Empty<IReactor>();
 
         /// <summary>
         /// Spatial partitioning system. Exposes area queries (position lookup, reactor listing)
@@ -28,7 +31,10 @@ namespace Runtime.ReactiveWorld
         public PartitionManager Partitions { get; private set; }
 
         /// <summary>All reactors currently registered in the world.</summary>
-        private List<IReactor> _reactors  = new();
+        public IReadOnlyList<IReactor> Reactors => _reactors;
+
+        /// <summary>All reactors currently registered in the world.</summary>
+        private List<IReactor> _reactors = new();
 
         /// <summary>
         /// Event subscribers indexed by event type.
@@ -66,7 +72,7 @@ namespace Runtime.ReactiveWorld
 
             Partitions = new PartitionManager();
 
-            foreach(var area in FindObjectsByType<AreaVolume>(FindObjectsSortMode.None))
+            foreach (var area in FindObjectsByType<AreaVolume>(FindObjectsSortMode.None))
                 Partitions.RegisterArea(area);
         }
 
@@ -77,6 +83,12 @@ namespace Runtime.ReactiveWorld
         /// <param name="reactor">The reactor to register.</param>
         public void Register(IReactor reactor)
         {
+            if (reactor == null)
+            {
+                Debug.LogWarning("[WorldManager] Tried to register a null reactor.");
+                return;
+            }
+
             if (!_reactors.Contains(reactor))
             {
                 if (reactor is IAreaReactor areaReactor)
@@ -85,6 +97,9 @@ namespace Runtime.ReactiveWorld
                 }
 
                 _reactors.Add(reactor);
+#if UNITY_EDITOR
+                GetOrCreateReactorStats(reactor);
+#endif
                 Debug.Log($"[WorldManager] Reactor '{reactor.Name}' registered.");
             }
             else
@@ -100,6 +115,12 @@ namespace Runtime.ReactiveWorld
         /// <param name="reactor">The reactor to unregister.</param>
         public void Unregister(IReactor reactor)
         {
+            if (reactor == null)
+            {
+                Debug.LogWarning("[WorldManager] Tried to unregister a null reactor.");
+                return;
+            }
+
             if (_reactors.Contains(reactor))
             {
                 if (reactor is IAreaReactor areaReactor)
@@ -108,6 +129,9 @@ namespace Runtime.ReactiveWorld
                 }
 
                 _reactors.Remove(reactor);
+#if UNITY_EDITOR
+                _reactorEventStats.Remove(reactor);
+#endif
                 Debug.Log($"[WorldManager] Reactor '{reactor.Name}' unregistered.");
             }
             else
@@ -167,29 +191,122 @@ namespace Runtime.ReactiveWorld
                 Debug.LogWarning($"[WorldManager] Event '{key.Name}' raised but no subscribers are listening.");
                 return;
             }
+
+#if UNITY_EDITOR
+            var stopwatch = Stopwatch.StartNew();
+#endif
             Debug.Log($"[WorldManager] Raising event '{key.Name}' to {_subscribers[key].Count} subscriber(s).");
             foreach (var sub in _subscribers[key])
+            {
+#if UNITY_EDITOR
+                var subscriberStopwatch = Stopwatch.StartNew();
+#endif
                 ((Action<TEvent>)sub)?.Invoke(evt);
+#if UNITY_EDITOR
+                subscriberStopwatch.Stop();
+                TrackRecievedEvent(sub, subscriberStopwatch.Elapsed.TotalMilliseconds);
+#endif
+            }
+#if UNITY_EDITOR
+            stopwatch.Stop();
+            RecordRaisePerformance(key.Name, stopwatch.Elapsed.TotalMilliseconds, _subscribers[key].Count);
+#endif
+        }
+
+        /// <summary>
+        /// Tries to find the first registered reactor with the given name.
+        /// </summary>
+        public bool TryGetReactor(string reactorName, out IReactor reactor)
+        {
+            reactor = _reactors.Find(current => current.Name == reactorName);
+            return reactor != null;
+        }
+
+        /// <summary>
+        /// Returns all registered reactors for the provided area.
+        /// </summary>
+        public IReadOnlyList<IReactor> GetReactorsForArea(string areaId)
+        {
+            if (Partitions == null || string.IsNullOrWhiteSpace(areaId))
+                return EmptyReactors;
+
+            return Partitions.GetReactors(areaId);
+        }
+
+        /// <summary>
+        /// Enables or disables a registered reactor.
+        /// </summary>
+        public bool SetReactorEnabled(IReactor reactor, bool enabled)
+        {
+            if (reactor == null)
+            {
+                Debug.LogWarning("[WorldManager] SetReactorEnabled failed: reactor is null.");
+                return false;
+            }
+
+            if (!_reactors.Contains(reactor))
+            {
+                Debug.LogWarning($"[WorldManager] SetReactorEnabled failed: reactor '{reactor.Name}' is not registered.");
+                return false;
+            }
+
+            reactor.IsEnabled = enabled;
+            Debug.Log($"[WorldManager] Reactor '{reactor.Name}' set to {(enabled ? "enabled" : "disabled")}.");
+            return true;
         }
 
         /// <summary>
         /// Enables or disables a registered reactor by name.
-        /// Has no effect if the reactor name is not found.
         /// </summary>
-        /// <param name="reactorName">The <see cref="IReactor.Name"/> of the target reactor.</param>
-        /// <param name="enabled"><c>true</c> to enable, <c>false</c> to disable.</param>
-        public void SetReactorEnabled(string reactorName, bool enabled)
+        public bool SetReactorEnabled(string reactorName, bool enabled)
         {
-            var currentReactor = _reactors.Find((reactor) => reactor.Name == reactorName);
-            if (currentReactor != null)
+            if (!TryGetReactor(reactorName, out var reactor))
             {
-                currentReactor.IsEnabled = enabled;
-                Debug.Log($"[WorldManager] Reactor '{reactorName}' set to {(enabled ? "enabled" : "disabled")}.");
+                Debug.LogWarning($"[WorldManager] SetReactorEnabled failed: reactor '{reactorName}' not found.");
+                return false;
             }
-            else
-            {
-                Debug.LogWarning($"[WorldManager] SetReactorEnabled: reactor '{reactorName}' not found.");
-            }
+
+            return SetReactorEnabled(reactor, enabled);
         }
+
+        /// <summary>
+        /// Removes a registered reactor from the world and optionally destroys its backing component.
+        /// </summary>
+        public bool RemoveReactor(IReactor reactor, bool destroyComponent = true)
+        {
+            if (reactor == null)
+            {
+                Debug.LogWarning("[WorldManager] RemoveReactor failed: reactor is null.");
+                return false;
+            }
+
+            if (!_reactors.Contains(reactor))
+            {
+                Debug.LogWarning($"[WorldManager] RemoveReactor failed: reactor '{reactor.Name}' is not registered.");
+                return false;
+            }
+
+            reactor.Shutdown();
+
+            if (destroyComponent && reactor is Component component)
+                Destroy(component);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Removes a registered reactor by name and optionally destroys its backing component.
+        /// </summary>
+        public bool RemoveReactor(string reactorName, bool destroyComponent = true)
+        {
+            if (!TryGetReactor(reactorName, out var reactor))
+            {
+                Debug.LogWarning($"[WorldManager] RemoveReactor failed: reactor '{reactorName}' not found.");
+                return false;
+            }
+
+            return RemoveReactor(reactor, destroyComponent);
+        }
+
     }
 }

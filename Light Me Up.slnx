@@ -16,12 +16,12 @@
   <Project Path="Unity.UnifiedRayTracing.Runtime.csproj" />
   <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="DiasGames.csproj" />
   <Project Path="UnityEditor.UI.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.2D.Editor.Overrides.csproj" />
   <Project Path="DiasGames.Command.csproj" />
   <Project Path="DiasGames.ClimbingSystem.Abilities.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />
   <Project Path="DiasGames.ClimbingSystem.Command.csproj" />
   <Project Path="DiasGames.UI.csproj" />
