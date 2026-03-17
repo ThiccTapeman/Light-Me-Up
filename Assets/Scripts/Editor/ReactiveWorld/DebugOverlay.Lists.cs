@@ -161,7 +161,11 @@ namespace Editor.ReactiveWorld
             using (new EditorGUI.DisabledScope(!hasCustomDebugGui))
             {
                 if (GUILayout.Button("Open", GUILayout.Width(64f)) && hasCustomDebugGui)
+                {
                     _selectedReactor = reactor;
+                    _selectedReactorSourceTab = OverlayMainTab.List;
+                    _detailTab = ReactorDetailTab.Overview;
+                }
             }
 
             if (GUILayout.Button("Remove", GUILayout.Width(72f)))
@@ -194,7 +198,11 @@ namespace Editor.ReactiveWorld
                 worldManager.SetReactorEnabled(reactor, !reactor.IsEnabled);
 
             if (GUILayout.Button("Show", GUILayout.Width(64f)))
+            {
                 _selectedReactor = reactor;
+                _selectedReactorSourceTab = OverlayMainTab.Performance;
+                _detailTab = ReactorDetailTab.Trace;
+            }
 
             if (GUILayout.Button("Remove", GUILayout.Width(72f)))
             {

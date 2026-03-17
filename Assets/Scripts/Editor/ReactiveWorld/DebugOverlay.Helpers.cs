@@ -164,6 +164,44 @@ namespace Editor.ReactiveWorld
             return false;
         }
 
+        private static bool TraceContainsReactor(WorldManager.EventTraceSnapshot trace, IReactor reactor)
+        {
+            if (string.Equals(trace.SourceName, reactor.Name, System.StringComparison.Ordinal))
+                return true;
+
+            foreach (var subscriber in trace.Subscribers)
+            {
+                if (SubscriberTraceContainsReactor(subscriber, reactor))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool SubscriberTraceContainsReactor(WorldManager.SubscriberTraceSnapshot subscriber, IReactor reactor)
+        {
+            if (string.Equals(subscriber.TargetName, reactor.Name, System.StringComparison.Ordinal))
+                return true;
+
+            foreach (var childEvent in subscriber.ChildEvents)
+            {
+                if (TraceContainsReactor(childEvent, reactor))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool GetExpandedState(Dictionary<string, bool> stateMap, string key)
+        {
+            return !stateMap.TryGetValue(key, out var isExpanded) || isExpanded;
+        }
+
+        private static void SetExpandedState(Dictionary<string, bool> stateMap, string key, bool isExpanded)
+        {
+            stateMap[key] = isExpanded;
+        }
+
         private static string TruncateToFit(string text, GUIStyle style, float maxWidth)
         {
             if (string.IsNullOrEmpty(text))
