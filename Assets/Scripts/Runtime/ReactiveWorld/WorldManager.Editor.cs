@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Runtime.ReactiveWorld.Reactor;
 
 namespace Runtime.ReactiveWorld
@@ -8,9 +9,13 @@ namespace Runtime.ReactiveWorld
     {
 #if UNITY_EDITOR
         private const int MaxPerformanceSamples = 60;
+        private const int MaxEventTraceRoots = 40;
 
         private readonly Queue<RaisePerformanceSample> _raisePerformanceSamples = new();
         private readonly Dictionary<IReactor, ReactorEventStats> _reactorEventStats = new();
+        private readonly List<EventTraceSnapshot> _eventTraceRoots = new();
+        private readonly Stack<SubscriberTraceSnapshot> _activeSubscriberTraceStack = new();
+
         private double _totalRaiseDurationMs;
 
         public readonly struct RaisePerformanceSnapshot
@@ -66,6 +71,40 @@ namespace Runtime.ReactiveWorld
             public double LastCallTimeMs;
         }
 
+        public sealed class EventTraceSnapshot
+        {
+            public EventTraceSnapshot(string eventName, string sourceName, int subscriberCount)
+            {
+                EventName = eventName;
+                SourceName = sourceName;
+                SubscriberCount = subscriberCount;
+                Subscribers = new List<SubscriberTraceSnapshot>();
+            }
+
+            public string EventName { get; }
+            public string SourceName { get; }
+            public int SubscriberCount { get; }
+            public double DurationMs { get; internal set; }
+            public List<SubscriberTraceSnapshot> Subscribers { get; }
+        }
+
+        public sealed class SubscriberTraceSnapshot
+        {
+            public SubscriberTraceSnapshot(string targetName, string targetTypeName, string methodName)
+            {
+                TargetName = targetName;
+                TargetTypeName = targetTypeName;
+                MethodName = methodName;
+                ChildEvents = new List<EventTraceSnapshot>();
+            }
+
+            public string TargetName { get; }
+            public string TargetTypeName { get; }
+            public string MethodName { get; }
+            public double DurationMs { get; internal set; }
+            public List<EventTraceSnapshot> ChildEvents { get; }
+        }
+
         public RaisePerformanceSnapshot GetRaisePerformanceSnapshot()
         {
             if (_raisePerformanceSamples.Count == 0)
@@ -92,6 +131,11 @@ namespace Runtime.ReactiveWorld
             return new ReactorEventStatsSnapshot(stats.EventsRecieved, averageCallTimeMs, stats.LastCallTimeMs);
         }
 
+        public IReadOnlyList<EventTraceSnapshot> GetRecentEventTraces()
+        {
+            return _eventTraceRoots;
+        }
+
         private void RecordRaisePerformance(string eventName, double durationMs, int subscriberCount)
         {
             var sample = new RaisePerformanceSample(eventName, durationMs, subscriberCount);
@@ -103,6 +147,59 @@ namespace Runtime.ReactiveWorld
                 var removedSample = _raisePerformanceSamples.Dequeue();
                 _totalRaiseDurationMs -= removedSample.DurationMs;
             }
+        }
+
+        private EventTraceSnapshot BeginEventTrace(string eventName, IReactor sourceReactor, int subscriberCount)
+        {
+            var sourceName = sourceReactor != null ? sourceReactor.Name : "External";
+            var trace = new EventTraceSnapshot(eventName, sourceName, subscriberCount);
+
+            if (_activeSubscriberTraceStack.Count > 0)
+            {
+                _activeSubscriberTraceStack.Peek().ChildEvents.Add(trace);
+                return trace;
+            }
+
+            _eventTraceRoots.Add(trace);
+            if (_eventTraceRoots.Count > MaxEventTraceRoots)
+                _eventTraceRoots.RemoveAt(0);
+
+            return trace;
+        }
+
+        private SubscriberTraceSnapshot BeginSubscriberTrace(EventTraceSnapshot parentEventTrace, Delegate subscriber)
+        {
+            var targetName = "Static";
+            var targetTypeName = subscriber.Method.DeclaringType?.Name ?? "Unknown";
+
+            if (subscriber.Target is IReactor targetReactor)
+            {
+                targetName = targetReactor.Name;
+                targetTypeName = targetReactor.GetType().Name;
+            }
+            else if (subscriber.Target != null)
+            {
+                targetName = subscriber.Target.GetType().Name;
+                targetTypeName = subscriber.Target.GetType().Name;
+            }
+
+            var trace = new SubscriberTraceSnapshot(targetName, targetTypeName, subscriber.Method.Name);
+            parentEventTrace.Subscribers.Add(trace);
+            _activeSubscriberTraceStack.Push(trace);
+            return trace;
+        }
+
+        private void CompleteSubscriberTrace(SubscriberTraceSnapshot trace, double durationMs)
+        {
+            trace.DurationMs = durationMs;
+
+            if (_activeSubscriberTraceStack.Count > 0 && ReferenceEquals(_activeSubscriberTraceStack.Peek(), trace))
+                _activeSubscriberTraceStack.Pop();
+        }
+
+        private void CompleteEventTrace(EventTraceSnapshot trace, double durationMs)
+        {
+            trace.DurationMs = durationMs;
         }
 
         private ReactorEventStats GetOrCreateReactorStats(IReactor reactor)

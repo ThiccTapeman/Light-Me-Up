@@ -88,6 +88,7 @@ namespace Editor.ReactiveWorld
     {
         private enum ReactorDetailTab
         {
+            Trace,
             Overview,
             Stats
         }
@@ -102,6 +103,8 @@ namespace Editor.ReactiveWorld
         private readonly List<IReactor> _performanceBuffer = new();
         private readonly Dictionary<string, bool> _expandedAreas = new();
         private readonly Dictionary<string, bool> _expandedTypes = new();
+        private readonly Dictionary<string, bool> _expandedTraceEvents = new();
+        private readonly Dictionary<string, bool> _expandedTraceCalls = new();
 
         private GUIStyle _windowStyle;
         private GUIStyle _sectionStyle;
@@ -114,20 +117,25 @@ namespace Editor.ReactiveWorld
         private GUIStyle _searchFieldStyle;
 
         private InputItem _toggleOverlayInput;
+        private InputItem _freezeTimeLeftControlInput;
+        private InputItem _freezeTimeRightControlInput;
         private Vector2 _mainScrollPosition;
         private Vector2 _detailScrollPosition;
         private bool _isVisible = true;
         private IReactor _selectedReactor;
+        private OverlayMainTab _selectedReactorSourceTab = OverlayMainTab.List;
         private ReactorGroupMode _groupMode = ReactorGroupMode.ByArea;
         private ReactorOrderMode _orderMode = ReactorOrderMode.ByName;
         private SortDirection _orderDirection = SortDirection.Ascending;
         private ReactorGroupMode _performanceGroupMode = ReactorGroupMode.None;
         private PerformanceSortMode _performanceSortMode = PerformanceSortMode.ByDelay;
         private SortDirection _performanceSortDirection = SortDirection.Descending;
-        private ReactorDetailTab _detailTab = ReactorDetailTab.Overview;
+        private ReactorDetailTab _detailTab = ReactorDetailTab.Stats;
         private OverlayMainTab _mainTab = OverlayMainTab.List;
         private string _searchTerm = string.Empty;
         private string _performanceSearchTerm = string.Empty;
+        private bool _isTimeFrozenByOverlay;
+        private float _timeScaleBeforeFreeze = 1f;
 
         private void Update()
         {
@@ -135,6 +143,13 @@ namespace Editor.ReactiveWorld
 
             if (_toggleOverlayInput != null && _toggleOverlayInput.Triggered())
                 _isVisible = !_isVisible;
+
+            UpdateTimeFreeze();
+        }
+
+        private void OnDisable()
+        {
+            RestoreTimeScale();
         }
 
         private void OnGUI()
@@ -165,10 +180,14 @@ namespace Editor.ReactiveWorld
 
         private void EnsureInput()
         {
-            if (_toggleOverlayInput != null)
+            if (_toggleOverlayInput != null &&
+                _freezeTimeLeftControlInput != null &&
+                _freezeTimeRightControlInput != null)
                 return;
 
             _toggleOverlayInput = InputManager.GetInstance().GetTempAction("ReactiveWorldDebug.ToggleOverlay", "<Keyboard>/f9");
+            _freezeTimeLeftControlInput = InputManager.GetInstance().GetTempAction("ReactiveWorldDebug.FreezeTimeLeftControl", "<Keyboard>/leftCtrl");
+            _freezeTimeRightControlInput = InputManager.GetInstance().GetTempAction("ReactiveWorldDebug.FreezeTimeRightControl", "<Keyboard>/rightCtrl");
         }
 
         private void SnapshotReactors(WorldManager worldManager)
@@ -250,6 +269,45 @@ namespace Editor.ReactiveWorld
             {
                 fixedHeight = 24
             };
+        }
+
+        private void UpdateTimeFreeze()
+        {
+            var shouldFreeze = _isVisible && IsFreezeInputPressed();
+            if (shouldFreeze)
+            {
+                if (_isTimeFrozenByOverlay)
+                    return;
+
+                _timeScaleBeforeFreeze = Time.timeScale;
+                Time.timeScale = 0f;
+                _isTimeFrozenByOverlay = true;
+                return;
+            }
+
+            RestoreTimeScale();
+        }
+
+        private bool IsFreezeInputPressed()
+        {
+            return IsInputPressed(_freezeTimeLeftControlInput) || IsInputPressed(_freezeTimeRightControlInput);
+        }
+
+        private static bool IsInputPressed(InputItem inputItem)
+        {
+            if (inputItem == null)
+                return false;
+
+            return inputItem.ReadValue<float>() > 0.5f;
+        }
+
+        private void RestoreTimeScale()
+        {
+            if (!_isTimeFrozenByOverlay)
+                return;
+
+            Time.timeScale = _timeScaleBeforeFreeze;
+            _isTimeFrozenByOverlay = false;
         }
     }
 }

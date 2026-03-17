@@ -1,3 +1,4 @@
+using Runtime.ReactiveWorld.Events;
 using UnityEngine;
 
 namespace Runtime.ReactiveWorld.Reactor
@@ -33,8 +34,13 @@ namespace Runtime.ReactiveWorld.Reactor
             WorldManager.Unregister(this);
         }
 
-        protected virtual void OnInitialize() { }
-        protected virtual void OnShutdown() { }
+        public virtual void OnInitialize() { }
+        public virtual void OnShutdown() { }
+
+        protected void RaiseEvent<TEvent>(TEvent evt) where TEvent : IWorldEvent
+        {
+            WorldManager.Raise(this, evt);
+        }
 
         /// <summary>
         /// Draws reactor-specific debug controls inside the ReactiveWorld editor overlay.

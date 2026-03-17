@@ -185,32 +185,78 @@ namespace Runtime.ReactiveWorld
         /// <param name="evt">The event instance to dispatch.</param>
         public void Raise<TEvent>(TEvent evt) where TEvent : IWorldEvent
         {
+            if (evt == null)
+            {
+                Debug.LogWarning("[WorldManager] Tried to raise a null event.");
+                return;
+            }
+
+            RaiseInternal(null, evt);
+        }
+
+        public void Raise<TEvent>(IReactor reactor, TEvent evt) where TEvent : IWorldEvent
+        {
+            if (evt == null)
+            {
+                Debug.LogWarning("[WorldManager] Tried to raise a null event.");
+                return;
+            }
+
+            RaiseInternal(reactor, evt);
+        }
+
+        private void RaiseInternal<TEvent>(IReactor reactor, TEvent evt) where TEvent : IWorldEvent
+        {
             var key = typeof(TEvent);
             if (!_subscribers.ContainsKey(key) || _subscribers[key].Count == 0)
             {
+#if UNITY_EDITOR
+                var emptyTrace = BeginEventTrace(key.Name, reactor, 0);
+                CompleteEventTrace(emptyTrace, 0d);
+                RecordRaisePerformance(key.Name, 0d, 0);
+#endif
                 Debug.LogWarning($"[WorldManager] Event '{key.Name}' raised but no subscribers are listening.");
                 return;
             }
 
 #if UNITY_EDITOR
+            var subscribers = _subscribers[key];
+            var dispatchTrace = BeginEventTrace(key.Name, reactor, subscribers.Count);
             var stopwatch = Stopwatch.StartNew();
+#else
+            var subscribers = _subscribers[key];
 #endif
-            Debug.Log($"[WorldManager] Raising event '{key.Name}' to {_subscribers[key].Count} subscriber(s).");
-            foreach (var sub in _subscribers[key])
+            Debug.Log($"[WorldManager] Raising event '{key.Name}' to {subscribers.Count} subscriber(s).");
+            try
+            {
+                foreach (var sub in subscribers)
+                {
+#if UNITY_EDITOR
+                    var subscriberTrace = BeginSubscriberTrace(dispatchTrace, sub);
+                    var subscriberStopwatch = Stopwatch.StartNew();
+                    try
+                    {
+#endif
+                        ((Action<TEvent>)sub)?.Invoke(evt);
+#if UNITY_EDITOR
+                    }
+                    finally
+                    {
+                        subscriberStopwatch.Stop();
+                        TrackRecievedEvent(sub, subscriberStopwatch.Elapsed.TotalMilliseconds);
+                        CompleteSubscriberTrace(subscriberTrace, subscriberStopwatch.Elapsed.TotalMilliseconds);
+                    }
+#endif
+                }
+            }
+            finally
             {
 #if UNITY_EDITOR
-                var subscriberStopwatch = Stopwatch.StartNew();
-#endif
-                ((Action<TEvent>)sub)?.Invoke(evt);
-#if UNITY_EDITOR
-                subscriberStopwatch.Stop();
-                TrackRecievedEvent(sub, subscriberStopwatch.Elapsed.TotalMilliseconds);
+                stopwatch.Stop();
+                CompleteEventTrace(dispatchTrace, stopwatch.Elapsed.TotalMilliseconds);
+                RecordRaisePerformance(key.Name, stopwatch.Elapsed.TotalMilliseconds, subscribers.Count);
 #endif
             }
-#if UNITY_EDITOR
-            stopwatch.Stop();
-            RecordRaisePerformance(key.Name, stopwatch.Elapsed.TotalMilliseconds, _subscribers[key].Count);
-#endif
         }
 
         /// <summary>
