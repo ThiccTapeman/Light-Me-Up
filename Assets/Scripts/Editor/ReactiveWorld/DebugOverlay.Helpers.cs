@@ -70,23 +70,43 @@ namespace Editor.ReactiveWorld
             });
         }
 
-        private static void SortPerformanceReactors(WorldManager worldManager, List<IReactor> reactors, PerformanceSortMode sortMode, SortDirection direction)
+        private static void SortPerformanceReactors(
+            WorldManager worldManager,
+            List<IReactor> reactors,
+            PerformanceSortMode sortMode,
+            ReactorOrderMode orderMode,
+            SortDirection direction)
         {
             reactors.Sort((left, right) =>
             {
                 var leftStats = worldManager.GetReactorEventStats(left);
                 var rightStats = worldManager.GetReactorEventStats(right);
 
-                var result = sortMode switch
+                var performanceResult = sortMode switch
                 {
-                    PerformanceSortMode.ByCalls => leftStats.EventsRecieved.CompareTo(rightStats.EventsRecieved),
-                    _ => leftStats.AverageCallTimeMs.CompareTo(rightStats.AverageCallTimeMs)
+                    PerformanceSortMode.ByCalls => (leftStats.EventsSent + leftStats.EventsReceived).CompareTo(rightStats.EventsSent + rightStats.EventsReceived),
+                    _ => Mathf.Max((float)leftStats.AverageSentCallTimeMs, (float)leftStats.AverageReceivedCallTimeMs)
+                        .CompareTo(Mathf.Max((float)rightStats.AverageSentCallTimeMs, (float)rightStats.AverageReceivedCallTimeMs))
+                };
+
+                if (performanceResult != 0)
+                {
+                    if (direction == SortDirection.Descending)
+                        performanceResult *= -1;
+
+                    return performanceResult;
+                }
+
+                var orderResult = orderMode switch
+                {
+                    ReactorOrderMode.ByEnabled => CompareByEnabled(left, right),
+                    _ => CompareByName(left, right)
                 };
 
                 if (direction == SortDirection.Descending)
-                    result *= -1;
+                    orderResult *= -1;
 
-                return result != 0 ? result : CompareByName(left, right);
+                return orderResult != 0 ? orderResult : CompareByName(left, right);
             });
         }
 
@@ -178,6 +198,42 @@ namespace Editor.ReactiveWorld
             return false;
         }
 
+        private static bool TryFindFocusedSubscriber(
+            WorldManager.EventTraceSnapshot trace,
+            IReactor reactor,
+            out WorldManager.SubscriberTraceSnapshot subscriber)
+        {
+            foreach (var currentSubscriber in trace.Subscribers)
+            {
+                if (TryFindFocusedSubscriber(currentSubscriber, reactor, out subscriber))
+                    return true;
+            }
+
+            subscriber = null;
+            return false;
+        }
+
+        private static bool TryFindFocusedSubscriber(
+            WorldManager.SubscriberTraceSnapshot subscriber,
+            IReactor reactor,
+            out WorldManager.SubscriberTraceSnapshot match)
+        {
+            if (string.Equals(subscriber.TargetName, reactor.Name, System.StringComparison.Ordinal))
+            {
+                match = subscriber;
+                return true;
+            }
+
+            foreach (var childEvent in subscriber.ChildEvents)
+            {
+                if (TryFindFocusedSubscriber(childEvent, reactor, out match))
+                    return true;
+            }
+
+            match = null;
+            return false;
+        }
+
         private static bool SubscriberTraceContainsReactor(WorldManager.SubscriberTraceSnapshot subscriber, IReactor reactor)
         {
             if (string.Equals(subscriber.TargetName, reactor.Name, System.StringComparison.Ordinal))
@@ -190,6 +246,127 @@ namespace Editor.ReactiveWorld
             }
 
             return false;
+        }
+
+        private static string GetTraceStatusLabel(WorldManager.TraceStatus status)
+        {
+            return status switch
+            {
+                WorldManager.TraceStatus.NoSubscribers => "No Subscribers",
+                WorldManager.TraceStatus.Faulted => "Faulted",
+                _ => "Completed"
+            };
+        }
+
+        private static bool ShouldHighlightTrace(WorldManager.EventTraceSnapshot trace)
+        {
+            if (trace == null)
+                return false;
+
+            if (trace.ResultStatus == WorldManager.TraceStatus.Faulted || trace.HasException)
+                return true;
+
+            foreach (var subscriber in trace.Subscribers)
+            {
+                if (ShouldHighlightTrace(subscriber))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool ShouldHighlightTrace(WorldManager.SubscriberTraceSnapshot subscriber)
+        {
+            if (subscriber == null)
+                return false;
+
+            if (subscriber.ResultStatus == WorldManager.TraceStatus.Faulted || subscriber.HasException)
+                return true;
+
+            foreach (var childEvent in subscriber.ChildEvents)
+            {
+                if (ShouldHighlightTrace(childEvent))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static string GetExceptionDetails(string exceptionTypeName, string exceptionMessage, string exceptionStackTrace)
+        {
+            if (string.IsNullOrWhiteSpace(exceptionMessage))
+                return "None";
+
+            if (!string.IsNullOrWhiteSpace(exceptionStackTrace))
+                return exceptionStackTrace.Trim();
+
+            return string.IsNullOrWhiteSpace(exceptionTypeName)
+                ? exceptionMessage
+                : $"{exceptionTypeName}: {exceptionMessage}";
+        }
+
+        private static GUIStyle GetTraceSectionStyle(ReactiveWorldDebugOverlay overlay, bool highlight)
+        {
+            return highlight ? overlay._faultedSectionStyle : overlay._sectionStyle;
+        }
+
+        private static GUIStyle GetTraceRowStyle(ReactiveWorldDebugOverlay overlay, bool highlight)
+        {
+            return highlight ? overlay._faultedRowStyle : overlay._rowStyle;
+        }
+
+        private static void BeginTraceTint(bool highlight, bool expanded)
+        {
+            if (!highlight)
+                return;
+
+            GUI.color = expanded
+                ? new Color(1f, 0.82f, 0.82f)
+                : new Color(1f, 0.68f, 0.68f);
+        }
+
+        private static void EndTraceTint(bool highlight)
+        {
+            if (!highlight)
+                return;
+
+            GUI.color = Color.white;
+        }
+
+        private void DrawRichLabel(string text, GUIStyle style = null)
+        {
+            var content = new GUIContent(text);
+            var labelStyle = style ?? _richLabelStyle;
+            var width = Mathf.Ceil(labelStyle.CalcSize(content).x);
+            GUILayout.Label(content, labelStyle, GUILayout.Width(width));
+        }
+
+        private bool DrawReactorLink(WorldManager worldManager, string reactorName, bool bold = false)
+        {
+            if (string.IsNullOrWhiteSpace(reactorName))
+            {
+                GUILayout.Label("Unknown", _subtleLabelStyle);
+                return false;
+            }
+
+            var label = bold ? $"<b>{reactorName}</b>" : reactorName;
+
+            if (!worldManager.TryGetReactor(reactorName, out var targetReactor))
+            {
+                GUILayout.Label(label, _richLabelStyle);
+                return false;
+            }
+
+            var content = new GUIContent(label);
+            var width = Mathf.Ceil(_linkStyle.CalcSize(content).x);
+            if (!GUILayout.Button(content, _linkStyle, GUILayout.Width(width)))
+                return false;
+
+            _selectedReactor = targetReactor;
+            _selectedReactorSourceTab = OverlayMainTab.Performance;
+            _detailTab = ReactorDetailTab.Trace;
+            _detailScrollPosition = Vector2.zero;
+            return true;
         }
 
         private static bool GetExpandedState(Dictionary<string, bool> stateMap, string key)

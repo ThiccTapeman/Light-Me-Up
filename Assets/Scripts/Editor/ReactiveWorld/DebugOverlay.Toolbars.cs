@@ -11,6 +11,7 @@ namespace Editor.ReactiveWorld
 
             GUILayout.Label("Performance Summary", _headerStyle);
             GUILayout.Label($"Calls Made In Last 60: {snapshot.CallsInLast60}");
+            GUILayout.Label($"Sent: {snapshot.TotalEventsSent} | Received: {snapshot.TotalEventsReceived}");
             GUILayout.Label($"Average Call -> Action Time: {snapshot.AverageCallDurationMs:F3} ms");
             GUILayout.Label($"Last Call -> Action Time: {snapshot.LastCallDurationMs:F3} ms");
             GUILayout.Label($"Last Event: {snapshot.LastEventName}");
@@ -44,6 +45,22 @@ namespace Editor.ReactiveWorld
                 var style = isActive ? _activeTabStyle : _pillStyle;
                 if (GUILayout.Toggle(isActive, PerformanceSortLabel(sortMode), style) && !isActive)
                     _performanceSortMode = sortMode;
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        private void DrawPerformanceOrderToolbar()
+        {
+            GUILayout.Label("Order", _subtleLabelStyle);
+            GUILayout.BeginHorizontal();
+
+            foreach (ReactorOrderMode orderMode in System.Enum.GetValues(typeof(ReactorOrderMode)))
+            {
+                var isActive = _performanceOrderMode == orderMode;
+                var style = isActive ? _activeTabStyle : _pillStyle;
+                if (GUILayout.Toggle(isActive, OrderLabel(orderMode), style) && !isActive)
+                    _performanceOrderMode = orderMode;
             }
 
             GUILayout.EndHorizontal();

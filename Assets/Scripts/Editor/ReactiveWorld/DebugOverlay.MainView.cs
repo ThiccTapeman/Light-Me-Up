@@ -80,6 +80,7 @@ namespace Editor.ReactiveWorld
             BeginSection();
             DrawPerformanceGroupToolbar();
             DrawPerformanceSortToolbar();
+            DrawPerformanceOrderToolbar();
             DrawPerformanceDirectionToolbar();
             DrawPerformanceSearchBar();
             GUILayout.Label("Component Performance", _headerStyle);

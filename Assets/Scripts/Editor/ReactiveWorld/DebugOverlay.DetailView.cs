@@ -102,7 +102,16 @@ namespace Editor.ReactiveWorld
                 }
 
                 hasTrace = true;
-                DrawEventTrace(trace, reactor, $"trace:{traceIndex}", 0);
+
+                if (string.Equals(trace.SourceName, reactor.Name, System.StringComparison.Ordinal))
+                {
+                    DrawEventTrace(worldManager, trace, reactor, $"trace:{traceIndex}", 0, true, null);
+                }
+                else if (TryFindFocusedSubscriber(trace, reactor, out var focusedSubscriber))
+                {
+                    DrawSubscriberTrace(worldManager, focusedSubscriber, reactor, $"trace:{traceIndex}", 0, trace.SourceName, true);
+                }
+
                 traceIndex++;
             }
 
@@ -114,17 +123,26 @@ namespace Editor.ReactiveWorld
             EndSection();
         }
 
-        private void DrawEventTrace(WorldManager.EventTraceSnapshot trace, IReactor reactor, string traceKey, int depth)
+        private void DrawEventTrace(
+            WorldManager worldManager,
+            WorldManager.EventTraceSnapshot trace,
+            IReactor reactor,
+            string traceKey,
+            int depth,
+            bool isFocusedRoot = false,
+            string originName = null)
         {
             var isExpanded = GetExpandedState(_expandedTraceEvents, traceKey);
+            var shouldHighlight = ShouldHighlightTrace(trace);
 
-            BeginSection();
+            BeginTraceTint(shouldHighlight, isExpanded);
+            GUILayout.BeginVertical(GetTraceSectionStyle(this, shouldHighlight));
             GUILayout.BeginHorizontal();
             GUILayout.Space(depth * 14f);
             GUILayout.BeginVertical();
-            isExpanded = EditorGUILayout.Foldout(isExpanded, $"Call | {trace.EventName}", true);
+            isExpanded = EditorGUILayout.Foldout(isExpanded, $"Event Raised: {trace.EventName}", true);
             SetExpandedState(_expandedTraceEvents, traceKey, isExpanded);
-            GUILayout.Label($"Subscribers | {trace.SubscriberCount}    Time | {trace.DurationMs:F3} ms", _subtleLabelStyle);
+            GUILayout.Label($"Status | {GetTraceStatusLabel(trace.ResultStatus)}    Subscribers | {trace.SubscriberCount}    Time | {trace.DurationMs:F3} ms", shouldHighlight ? _redLabelStyle : _subtleLabelStyle);
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
@@ -132,46 +150,103 @@ namespace Editor.ReactiveWorld
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space((depth + 1) * 14f);
-                GUILayout.Label($"Source | {trace.SourceName}", _subtleLabelStyle);
+                GUILayout.BeginVertical();
+                GUILayout.BeginHorizontal();
+                DrawRichLabel("Triggered ", _subtleLabelStyle);
+                DrawReactorLink(worldManager, trace.SourceName, true);
+                GUILayout.EndHorizontal();
+
+                if (isFocusedRoot && !string.IsNullOrWhiteSpace(originName))
+                {
+                    GUILayout.BeginHorizontal();
+                    DrawRichLabel("Origin: ", _subtleLabelStyle);
+                    DrawReactorLink(worldManager, originName, true);
+                    GUILayout.EndHorizontal();
+                }
+
+                GUILayout.Label($"Context | Scene {trace.Context.SceneName} | Frame {trace.Context.Frame} | Time {trace.Context.Time:F3} | Unscaled {trace.Context.UnscaledTime:F3}", _subtleLabelStyle);
+                GUILayout.Label("Event Stack Trace", _subtleLabelStyle);
+                GUILayout.TextArea(trace.EventStackTrace ?? "No stack trace captured.", _stackTraceStyle);
+
+                if (trace.HasException)
+                {
+                    GUILayout.Label("Exception Details", _redLabelStyle);
+                    GUILayout.TextArea(GetExceptionDetails(trace.ExceptionTypeName, trace.ExceptionMessage, trace.ExceptionStackTrace), _stackTraceStyle);
+                }
+
+                GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
 
                 for (var i = 0; i < trace.Subscribers.Count; i++)
-                    DrawSubscriberTrace(trace.Subscribers[i], reactor, $"{traceKey}/call:{i}", depth + 1);
+                    DrawSubscriberTrace(worldManager, trace.Subscribers[i], reactor, $"{traceKey}/call:{i}", depth + 1, originName, false);
             }
 
-            EndSection();
+            GUILayout.EndVertical();
+            EndTraceTint(shouldHighlight);
         }
 
-        private void DrawSubscriberTrace(WorldManager.SubscriberTraceSnapshot subscriber, IReactor reactor, string traceKey, int depth)
+        private void DrawSubscriberTrace(
+            WorldManager worldManager,
+            WorldManager.SubscriberTraceSnapshot subscriber,
+            IReactor reactor,
+            string traceKey,
+            int depth,
+            string originName,
+            bool isFocusedRoot)
         {
             var isSelectedTarget = string.Equals(subscriber.TargetName, reactor.Name, System.StringComparison.Ordinal);
             var hasSubCalls = subscriber.ChildEvents.Count > 0;
             var isExpanded = hasSubCalls && GetExpandedState(_expandedTraceCalls, traceKey);
+            var hasExceptionTrail = ShouldHighlightTrace(subscriber);
+            var rowStyle = GetTraceRowStyle(this, hasExceptionTrail);
 
+            BeginTraceTint(hasExceptionTrail, isExpanded);
             GUILayout.BeginHorizontal();
             GUILayout.Space(depth * 14f);
-            GUILayout.BeginVertical(_rowStyle);
+            GUILayout.BeginVertical(rowStyle);
 
+            GUILayout.BeginHorizontal();
             if (hasSubCalls)
             {
-                isExpanded = EditorGUILayout.Foldout(isExpanded, $"{(isSelectedTarget ? "Target" : "Call")} | {subscriber.TargetName}", true);
+                isExpanded = EditorGUILayout.Foldout(isExpanded, GUIContent.none, true);
                 SetExpandedState(_expandedTraceCalls, traceKey, isExpanded);
             }
             else
             {
-                GUILayout.Label($"{(isSelectedTarget ? "Target" : "Call")} | {subscriber.TargetName}", isSelectedTarget ? _headerStyle : GUI.skin.label);
+                GUILayout.Space(16f);
             }
 
-            GUILayout.Label($"Method | {subscriber.MethodName}", _subtleLabelStyle);
-            GUILayout.Label($"Type | {subscriber.TargetTypeName}    Time | {subscriber.DurationMs:F3} ms", _subtleLabelStyle);
+            DrawRichLabel("Triggered ", hasExceptionTrail ? _redLabelStyle : _subtleLabelStyle);
+            DrawReactorLink(worldManager, subscriber.TargetName, true);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label($"Method: {subscriber.MethodName}", hasExceptionTrail ? _redLabelStyle : _subtleLabelStyle);
+            GUILayout.Label($"Time: {subscriber.DurationMs:F3} ms", _subtleLabelStyle);
+            GUILayout.Label($"Status: {GetTraceStatusLabel(subscriber.ResultStatus)}", hasExceptionTrail ? _redLabelStyle : _subtleLabelStyle);
+
+            if (isFocusedRoot && !string.IsNullOrWhiteSpace(originName))
+            {
+                GUILayout.BeginHorizontal();
+                DrawRichLabel("Origin: ", _subtleLabelStyle);
+                DrawReactorLink(worldManager, originName, true);
+                GUILayout.EndHorizontal();
+            }
+
+            if (subscriber.HasException)
+            {
+                GUILayout.Label("Exception Details", _redLabelStyle);
+                GUILayout.TextArea(GetExceptionDetails(subscriber.ExceptionTypeName, subscriber.ExceptionMessage, subscriber.ExceptionStackTrace), _stackTraceStyle);
+            }
+
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
+            EndTraceTint(hasExceptionTrail);
 
             if (!hasSubCalls || !isExpanded)
                 return;
 
             for (var i = 0; i < subscriber.ChildEvents.Count; i++)
-                DrawEventTrace(subscriber.ChildEvents[i], reactor, $"{traceKey}/event:{i}", depth + 1);
+                DrawEventTrace(worldManager, subscriber.ChildEvents[i], reactor, $"{traceKey}/event:{i}", depth + 1, false, originName);
         }
 
         private void DrawReactorOverview(IReactor reactor)
@@ -191,9 +266,15 @@ namespace Editor.ReactiveWorld
 
             BeginSection();
             GUILayout.Label("Stats", _headerStyle);
-            GUILayout.Label($"Events Recieved: {stats.EventsRecieved}");
-            GUILayout.Label($"Avarage Call Time: {stats.AverageCallTimeMs:F3} ms");
-            GUILayout.Label($"Last Call Time: {stats.LastCallTimeMs:F3} ms");
+            GUILayout.Label($"Events Sent: {stats.EventsSent}");
+            GUILayout.Label($"Average Sent Call Time: {stats.AverageSentCallTimeMs:F3} ms");
+            GUILayout.Label($"Last Sent Call Time: {stats.LastSentCallTimeMs:F3} ms");
+            GUILayout.Label($"Last Sent Event: {stats.LastSentEventName}");
+            GUILayout.Space(4f);
+            GUILayout.Label($"Events Received: {stats.EventsReceived}");
+            GUILayout.Label($"Average Received Call Time: {stats.AverageReceivedCallTimeMs:F3} ms");
+            GUILayout.Label($"Last Received Call Time: {stats.LastReceivedCallTimeMs:F3} ms");
+            GUILayout.Label($"Last Received Event: {stats.LastReceivedEventName}");
             EndSection();
         }
     }
