@@ -115,6 +115,12 @@ namespace Editor.ReactiveWorld
         private GUIStyle _activeTabStyle;
         private GUIStyle _pillStyle;
         private GUIStyle _searchFieldStyle;
+        private GUIStyle _faultedRowStyle;
+        private GUIStyle _faultedSectionStyle;
+        private GUIStyle _stackTraceStyle;
+        private GUIStyle _redLabelStyle;
+        private GUIStyle _richLabelStyle;
+        private GUIStyle _linkStyle;
 
         private InputItem _toggleOverlayInput;
         private InputItem _freezeTimeLeftControlInput;
@@ -128,6 +134,7 @@ namespace Editor.ReactiveWorld
         private ReactorOrderMode _orderMode = ReactorOrderMode.ByName;
         private SortDirection _orderDirection = SortDirection.Ascending;
         private ReactorGroupMode _performanceGroupMode = ReactorGroupMode.None;
+        private ReactorOrderMode _performanceOrderMode = ReactorOrderMode.ByName;
         private PerformanceSortMode _performanceSortMode = PerformanceSortMode.ByDelay;
         private SortDirection _performanceSortDirection = SortDirection.Descending;
         private ReactorDetailTab _detailTab = ReactorDetailTab.Stats;
@@ -204,7 +211,7 @@ namespace Editor.ReactiveWorld
             }
 
             SortReactors(_reactorBuffer, _groupMode, _orderMode, _orderDirection);
-            SortPerformanceReactors(worldManager, _performanceBuffer, _performanceSortMode, _performanceSortDirection);
+            SortPerformanceReactors(worldManager, _performanceBuffer, _performanceSortMode, _performanceOrderMode, _performanceSortDirection);
         }
 
         private void ValidateSelection()
@@ -268,6 +275,31 @@ namespace Editor.ReactiveWorld
             _searchFieldStyle = new GUIStyle(GUI.skin.textField)
             {
                 fixedHeight = 24
+            };
+
+            _faultedRowStyle = new GUIStyle(_rowStyle);
+            _faultedSectionStyle = new GUIStyle(_sectionStyle);
+            _stackTraceStyle = new GUIStyle(EditorStyles.textArea)
+            {
+                wordWrap = false,
+                richText = false
+            };
+
+            _redLabelStyle = new GUIStyle(GUI.skin.label)
+            {
+                normal = { textColor = new Color(1f, 0.35f, 0.35f) },
+                fontStyle = FontStyle.Bold
+            };
+
+            _richLabelStyle = new GUIStyle(GUI.skin.label)
+            {
+                richText = true,
+                wordWrap = true
+            };
+
+            _linkStyle = new GUIStyle(EditorStyles.linkLabel)
+            {
+                richText = true
             };
         }
 

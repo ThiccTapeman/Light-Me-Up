@@ -187,9 +187,9 @@ namespace Editor.ReactiveWorld
 
             GUILayout.BeginVertical(_rowStyle);
             DrawStatusNameRow(reactor, true);
-            GUILayout.Label($"Calls: {stats.EventsRecieved}", _subtleLabelStyle);
-            GUILayout.Label($"Avarage: {stats.AverageCallTimeMs:F3} ms", _subtleLabelStyle);
-            GUILayout.Label($"Last: {stats.LastCallTimeMs:F3} ms", _subtleLabelStyle);
+            GUILayout.Label($"Sent: {stats.EventsSent} | Received: {stats.EventsReceived}", _subtleLabelStyle);
+            GUILayout.Label($"Avg Sent: {stats.AverageSentCallTimeMs:F3} ms | Avg Received: {stats.AverageReceivedCallTimeMs:F3} ms", _subtleLabelStyle);
+            GUILayout.Label($"Last Sent: {stats.LastSentCallTimeMs:F3} ms | Last Received: {stats.LastReceivedCallTimeMs:F3} ms", _subtleLabelStyle);
 
             GUILayout.BeginHorizontal();
 

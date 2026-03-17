@@ -194,6 +194,12 @@ namespace Runtime.ReactiveWorld
             RaiseInternal(null, evt);
         }
 
+        /// <summary>
+        /// Publishes an event on behalf of a specific reactor. Used to track event sources in the debug overlay.
+        /// </summary>
+        /// <typeparam name="TEvent">The event type to raise.</typeparam>
+        /// <param name="reactor">The reactor raising the event.</param>
+        /// <param name="evt">The event instance to dispatch.</param>
         public void Raise<TEvent>(IReactor reactor, TEvent evt) where TEvent : IWorldEvent
         {
             if (evt == null)
@@ -205,58 +211,79 @@ namespace Runtime.ReactiveWorld
             RaiseInternal(reactor, evt);
         }
 
+        /// <summary>
+        /// Core logic for dispatching events to subscribers. Handles tracing and logging for the debug overlay.
+        /// </summary>
+        /// <typeparam name="TEvent">The event type to raise.</typeparam>
+        /// <param name="reactor">The reactor raising the event.</param>
+        /// <param name="evt">The event instance to dispatch.</param>
         private void RaiseInternal<TEvent>(IReactor reactor, TEvent evt) where TEvent : IWorldEvent
         {
             var key = typeof(TEvent);
-            if (!_subscribers.ContainsKey(key) || _subscribers[key].Count == 0)
-            {
-#if UNITY_EDITOR
-                var emptyTrace = BeginEventTrace(key.Name, reactor, 0);
-                CompleteEventTrace(emptyTrace, 0d);
-                RecordRaisePerformance(key.Name, 0d, 0);
-#endif
-                Debug.LogWarning($"[WorldManager] Event '{key.Name}' raised but no subscribers are listening.");
-                return;
-            }
 
-#if UNITY_EDITOR
-            var subscribers = _subscribers[key];
-            var dispatchTrace = BeginEventTrace(key.Name, reactor, subscribers.Count);
-            var stopwatch = Stopwatch.StartNew();
-#else
-            var subscribers = _subscribers[key];
-#endif
-            Debug.Log($"[WorldManager] Raising event '{key.Name}' to {subscribers.Count} subscriber(s).");
+            if (!TryGetSubscribers(key, reactor, out var subscribers))
+                return;
+
+            var eventTrace = BeginRaiseTrace(key, reactor, subscribers.Count);
+
             try
             {
                 foreach (var sub in subscribers)
                 {
-#if UNITY_EDITOR
-                    var subscriberTrace = BeginSubscriberTrace(dispatchTrace, sub);
-                    var subscriberStopwatch = Stopwatch.StartNew();
+                    var subscriberTrace = BeginSubscriberTraceScope(eventTrace, sub);
+
                     try
                     {
-#endif
                         ((Action<TEvent>)sub)?.Invoke(evt);
-#if UNITY_EDITOR
+                    }
+                    catch (Exception exception)
+                    {
+                        MarkSubscriberTraceException(subscriberTrace, exception);
+                        throw;
                     }
                     finally
                     {
-                        subscriberStopwatch.Stop();
-                        TrackRecievedEvent(sub, subscriberStopwatch.Elapsed.TotalMilliseconds);
-                        CompleteSubscriberTrace(subscriberTrace, subscriberStopwatch.Elapsed.TotalMilliseconds);
+                        EndSubscriberTraceScope(sub, subscriberTrace);
                     }
-#endif
                 }
+            }
+            catch (Exception exception)
+            {
+                MarkEventTraceException(eventTrace, exception);
+                throw;
             }
             finally
             {
-#if UNITY_EDITOR
-                stopwatch.Stop();
-                CompleteEventTrace(dispatchTrace, stopwatch.Elapsed.TotalMilliseconds);
-                RecordRaisePerformance(key.Name, stopwatch.Elapsed.TotalMilliseconds, subscribers.Count);
-#endif
+                EndRaiseTrace(key, subscribers.Count, eventTrace);
             }
+        }
+
+        /// <summary>
+        /// Attempts to retrieve the list of subscribers for a given event type. If no subscribers are found, logs a warning.
+        /// </summary>
+        /// <param name="key">The event type for which to retrieve subscribers.</param>
+        /// <param name="reactor">The reactor raising the event.</param>
+        /// <param name="subscribers">The list of subscribers, if found.</param>
+        /// <returns>True if subscribers are found, otherwise false.</returns>
+        private bool TryGetSubscribers(Type key, IReactor reactor, out List<Delegate> subscribers)
+        {
+            if (_subscribers.TryGetValue(key, out subscribers) && subscribers.Count > 0)
+                return true;
+
+            HandleNoSubscribers(key, reactor);
+            subscribers = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Handles the case where an event is raised but no subscribers are listening. Completes the event trace for the debug overlay and logs a warning.
+        /// </summary>
+        /// <param name="key">The event type for which no subscribers were found.</param>
+        /// <param name="reactor">The reactor raising the event.</param>
+        private void HandleNoSubscribers(Type key, IReactor reactor)
+        {
+            CompleteEmptyRaiseTrace(key, reactor);
+            Debug.LogWarning($"[WorldManager] Event '{key.Name}' raised but no subscribers are listening.");
         }
 
         /// <summary>
