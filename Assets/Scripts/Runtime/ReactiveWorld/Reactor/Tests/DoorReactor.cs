@@ -2,12 +2,10 @@ using Runtime.ReactiveWorld.Events;
 using Runtime.ReactiveWorld.Reactor;
 using UnityEngine;
 
-public class DoorReactor : BaseReactor, IAreaReactor
+public class DoorReactor : BaseAreaReactor
 {
-    [SerializeField] private string _areaId;
     [SerializeField] private bool _isOpened;
 
-    public string AreaId => _areaId;
     public bool IsOpened => _isOpened;
 
     public override void OnInitialize()

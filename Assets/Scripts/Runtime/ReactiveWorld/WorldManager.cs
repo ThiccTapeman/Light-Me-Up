@@ -24,11 +24,15 @@ namespace Runtime.ReactiveWorld
         private static WorldManager instance;
         private static readonly IReadOnlyList<IReactor> EmptyReactors = Array.Empty<IReactor>();
 
+        [SerializeField] private float _pendingEventLifetime = 30f;
+
         /// <summary>
         /// Spatial partitioning system. Exposes area queries (position lookup, reactor listing)
         /// and is populated automatically during <c>Awake</c> from scene <see cref="AreaVolume"/> components.
         /// </summary>
         public PartitionManager Partitions { get; private set; }
+
+        public bool IsFlushing { get; private set; }
 
         /// <summary>All reactors currently registered in the world.</summary>
         public IReadOnlyList<IReactor> Reactors => _reactors;
@@ -41,6 +45,8 @@ namespace Runtime.ReactiveWorld
         /// Each key holds a list of callbacks to invoke when that event is raised.
         /// </summary>
         private Dictionary<Type, List<Delegate>> _subscribers = new();
+
+        private Dictionary<Type, List<(object evt, float timestamp)>> _pendingEvents = new();
 
         /// <summary>
         /// Gets or creates new instance for WorldManager
@@ -155,6 +161,33 @@ namespace Runtime.ReactiveWorld
             _subscribers[key].Add(callback);
 
             Debug.Log($"[WorldManager] Subscribed to '{key.Name}' (method: {callback.Method.Name}).");
+
+            // Flush pending events for this type
+            if (_pendingEvents.ContainsKey(key) && _pendingEvents[key].Count > 0)
+            {
+                var pending = _pendingEvents[key];
+                var now = Time.time;
+                var flushed = 0;
+
+                for (int i = pending.Count - 1; i >= 0; i--)
+                {
+                    if (now - pending[i].timestamp > _pendingEventLifetime)
+                    {
+                        pending.RemoveAt(i);
+                        continue;
+                    }
+
+                    IsFlushing = true;
+                    Raise((TEvent)pending[i].evt);
+                    flushed++;
+                    pending.RemoveAt(i);
+                }
+
+                IsFlushing = false;
+
+                if (flushed > 0)
+                    Debug.Log($"[WorldManager] Flushed {flushed} pending '{key.Name}' event(s).");
+            }
         }
 
         /// <summary>
@@ -326,6 +359,23 @@ namespace Runtime.ReactiveWorld
             reactor.IsEnabled = enabled;
             Debug.Log($"[WorldManager] Reactor '{reactor.Name}' set to {(enabled ? "enabled" : "disabled")}.");
             return true;
+        }
+
+        public void RaiseWhenListener<TEvent>(TEvent evt) where TEvent : IWorldEvent
+        {
+            var key = typeof(TEvent);
+
+            if (_subscribers.ContainsKey(key) && _subscribers[key].Count > 0)
+            {
+                Raise(evt);
+                return;
+            }
+
+            if (!_pendingEvents.ContainsKey(key))
+                _pendingEvents[key] = new List<(object evt, float timestamp)>();
+            
+            _pendingEvents[key].Add((evt, Time.time));
+            Debug.Log($"[WorldManager] Event '{key.Name}' queued (no subscribers yet)");
         }
 
         /// <summary>
