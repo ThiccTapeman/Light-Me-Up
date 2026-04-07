@@ -2,11 +2,8 @@ using Runtime.ReactiveWorld.Events;
 using Runtime.ReactiveWorld.Reactor;
 using UnityEngine;
 
-public class TestAreaReactor : BaseReactor, IAreaReactor
+public class TestAreaReactor : BaseAreaReactor
 {
-    [SerializeField] private string _areaId;
-
-    public string AreaId => _areaId;
 
     public override void OnInitialize()
     {
